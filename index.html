@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dodge Game</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #0b1020;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin: 15px 0 5px;
+      color: #00e5ff;
+    }
+
+    #score {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    canvas {
+      background: linear-gradient(#111936, #050711);
+      border: 3px solid #00e5ff;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #00e5ff55;
+    }
+
+    #gameOver {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000000bb;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #gameOver h2 {
+      font-size: 50px;
+      color: #ff3864;
+      margin: 10px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #00e5ff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00bcd4;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>⚡ DODGE!</h1>
+  <div id="score">Score: 0</div>
+
+  <canvas id="game" width="600" height="700"></canvas>
+
+  <div id="gameOver">
+    <h2>GAME OVER</h2>
+    <p id="finalScore"></p>
+    <button onclick="restart()">Opnieuw spelen</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    const scoreText = document.getElementById("score");
+    const gameOverScreen = document.getElementById("gameOver");
+    const finalScore = document.getElementById("finalScore");
+
+    let keys = {};
+    let score = 0;
+    let gameRunning = true;
+    let enemies = [];
+
+    const player = {
+      x: 275,
+      y: 620,
+      width: 50,
+      height: 50,
+      speed: 7
+    };
+
+    document.addEventListener("keydown", e => {
+      keys[e.key] = true;
+    });
+
+    document.addEventListener("keyup", e => {
+      keys[e.key] = false;
+    });
+
+    function spawnEnemy() {
+      const size = 30 + Math.random() * 30;
+
+      enemies.push({
+        x: Math.random() * (canvas.width - size),
+        y: -size,
+        width: size,
+        height: size,
+        speed: 3 + Math.random() * 4
+      });
+    }
+
+    function movePlayer() {
+      if (keys["ArrowLeft"] || keys["a"]) {
+        player.x -= player.speed;
+      }
+
+      if (keys["ArrowRight"] || keys["d"]) {
+        player.x += player.speed;
+      }
+
+      if (keys["ArrowUp"] || keys["w"]) {
+        player.y -= player.speed;
+      }
+
+      if (keys["ArrowDown"] || keys["s"]) {
+        player.y += player.speed;
+      }
+
+      // Binnen het scherm blijven
+      player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
+      player.y = Math.max(0, Math.min(canvas.height - player.height, player.y));
+    }
+
+    function collision(a, b) {
+      return (
+        a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y
+      );
+    }
+
+    function updateEnemies() {
+      for (let i = enemies.length - 1; i >= 0; i--) {
+        enemies[i].y += enemies[i].speed;
+
+        if (collision(player, enemies[i])) {
+          gameOver();
+        }
+
+        if (enemies[i].y > canvas.height) {
+          enemies.splice(i, 1);
+          score++;
+          scoreText.textContent = "Score: " + score;
+        }
+      }
+    }
+
+    function drawPlayer() {
+      ctx.fillStyle = "#00e5ff";
+      ctx.shadowColor = "#00e5ff";
+      ctx.shadowBlur = 20;
+
+      ctx.fillRect(
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+
+      ctx.shadowBlur = 0;
+    }
+
+    function drawEnemies() {
+      enemies.forEach(enemy => {
+        ctx.fillStyle = "#ff3864";
+        ctx.shadowColor = "#ff3864";
+        ctx.shadowBlur = 15;
+
+        ctx.fillRect(
+          enemy.x,
+          enemy.y,
+          enemy.width,
+          enemy.height
+        );
+
+        ctx.shadowBlur = 0;
+      });
+    }
+
+    let spawnTimer = 0;
+
+    function gameLoop() {
+      if (!gameRunning) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      movePlayer();
+
+      spawnTimer++;
+
+      if (spawnTimer > 35) {
+        spawnEnemy();
+        spawnTimer = 0;
+      }
+
+      updateEnemies();
+
+      drawPlayer();
+      drawEnemies();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    function gameOver() {
+      gameRunning = false;
+
+      finalScore.textContent = "Je score: " + score;
+      gameOverScreen.style.display = "flex";
+    }
+
+    function restart() {
+      player.x = 275;
+      player.y = 620;
+
+      enemies = [];
+      score = 0;
+      spawnTimer = 0;
+
+      scoreText.textContent = "Score: 0";
+
+      gameOverScreen.style.display = "none";
+
+      gameRunning = true;
+      gameLoop();
+    }
+
+    gameLoop();
+  </script>
+
+</body>
+</html>
