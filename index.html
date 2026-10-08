@@ -2,288 +2,370 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEXUS — Neon Rush</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS — Game Platform</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  background:#070912;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  min-height:100vh;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-nav{
-  height:68px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 6%;
-  border-bottom:1px solid #242a3d;
-  background:#090b14;
-  position:sticky;
-  top:0;
-  z-index:5;
+:root {
+    --bg: #070912;
+    --panel: #111522;
+    --panel2: #171c2d;
+    --border: #282f45;
+    --text: #f5f7ff;
+    --muted: #8b93aa;
+    --purple: #7c5cff;
+    --cyan: #20d9ff;
+    --green: #35e68a;
+    --red: #ff5577;
+    --yellow: #ffd84d;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:2px;
+body {
+    background:
+        radial-gradient(circle at 20% 0%, #261b50 0, transparent 30%),
+        radial-gradient(circle at 90% 20%, #103a4c 0, transparent 25%),
+        var(--bg);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
 }
 
-.logo span{color:#7c5cff}
-
-.nav button{
-  background:none;
-  border:0;
-  color:#a4abc0;
-  margin-left:20px;
-  cursor:pointer;
+button {
+    font: inherit;
+    cursor: pointer;
 }
 
-.nav button:hover{color:white}
-
-.page{
-  display:none;
+nav {
+    height: 68px;
+    padding: 0 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #080a12e8;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(12px);
 }
 
-.page.active{
-  display:block;
+.logo {
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: 3px;
 }
 
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:30px 20px;
+.logo span {
+    color: var(--purple);
 }
 
-.hero{
-  text-align:center;
-  padding:70px 20px 40px;
+.nav-links {
+    display: flex;
+    gap: 20px;
 }
 
-.hero h1{
-  font-size:clamp(45px,8vw,80px);
-  letter-spacing:-4px;
+.nav-links button {
+    border: 0;
+    background: none;
+    color: var(--muted);
 }
 
-.gradient{
-  background:linear-gradient(90deg,#7c5cff,#20d9ff);
-  -webkit-background-clip:text;
-  color:transparent;
+.nav-links button:hover {
+    color: white;
 }
 
-.hero p{
-  color:#8b93aa;
-  margin:20px auto;
-  max-width:600px;
-  line-height:1.6;
+.page {
+    display: none;
 }
 
-.btn{
-  border:0;
-  background:#7c5cff;
-  color:white;
-  padding:13px 22px;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
+.page.active {
+    display: block;
 }
 
-.btn:hover{
-  background:#6948ed;
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 35px 20px;
 }
 
-.games{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:18px;
+.hero {
+    text-align: center;
+    padding: 85px 20px;
 }
 
-.card{
-  background:#111522;
-  border:1px solid #252c40;
-  border-radius:17px;
-  overflow:hidden;
+.hero h1 {
+    font-size: clamp(48px, 9vw, 90px);
+    line-height: .95;
+    letter-spacing: -5px;
 }
 
-.game-art{
-  height:150px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:60px;
-  background:linear-gradient(135deg,#171b35,#0c1120);
+.gradient {
+    background: linear-gradient(90deg, #7c5cff, #20d9ff);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-.card-content{
-  padding:18px;
+.hero p {
+    color: var(--muted);
+    max-width: 650px;
+    margin: 25px auto;
+    line-height: 1.6;
+    font-size: 17px;
 }
 
-.card-content p{
-  color:#8b93aa;
-  margin:8px 0 15px;
-  font-size:14px;
+.btn {
+    border: 0;
+    border-radius: 11px;
+    padding: 13px 22px;
+    color: white;
+    background: linear-gradient(135deg, var(--purple), #4e8cff);
+    font-weight: 800;
 }
 
-.play{
-  width:100%;
-  padding:11px;
-  border-radius:9px;
-  border:1px solid #343c54;
-  background:#ffffff08;
-  color:white;
-  cursor:pointer;
+.btn:hover {
+    transform: translateY(-2px);
 }
 
-.play:hover{
-  background:#7c5cff;
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
 }
 
-/* GAME */
-
-.game-wrap{
-  max-width:700px;
-  margin:30px auto;
-  padding:20px;
+.card {
+    background: linear-gradient(145deg, var(--panel2), var(--panel));
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    overflow: hidden;
+    transition: .2s;
 }
 
-.game-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
+.card:hover {
+    transform: translateY(-4px);
+    border-color: #4a5472;
 }
 
-.score{
-  color:#20d9ff;
-  font-size:22px;
-  font-weight:bold;
+.game-art {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 62px;
+    background: radial-gradient(circle, #ffffff10, transparent 60%);
 }
 
-#gameCanvas{
-  width:100%;
-  max-width:600px;
-  display:block;
-  margin:auto;
-  background:#050711;
-  border:2px solid #303954;
-  border-radius:14px;
-  box-shadow:0 0 35px #7c5cff22;
+.card-content {
+    padding: 18px;
 }
 
-.controls{
-  text-align:center;
-  color:#8b93aa;
-  margin-top:15px;
+.card-content p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 8px 0 16px;
 }
 
-.game-actions{
-  text-align:center;
-  margin-top:15px;
+.play {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #ffffff08;
+    color: white;
 }
 
-.hidden{
-  display:none!important;
+.play:hover {
+    background: var(--purple);
+    border-color: var(--purple);
 }
 
-.game-over{
-  text-align:center;
-  margin-top:15px;
-  padding:18px;
-  border:1px solid #303954;
-  border-radius:12px;
-  background:#111522;
+/* GAME AREA */
+
+.game-container {
+    max-width: 720px;
+    margin: 30px auto;
+    padding: 20px;
 }
 
-.game-over h2{
-  color:#ff5577;
-  margin-bottom:8px;
+.game-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.game-score {
+    color: var(--cyan);
+    font-size: 22px;
+    font-weight: 900;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    background: #050711;
+    border: 2px solid #303950;
+    border-radius: 14px;
+}
+
+.game-help {
+    text-align: center;
+    color: var(--muted);
+    margin-top: 13px;
+}
+
+.game-over {
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 14px;
+    margin-top: 15px;
+}
+
+.game-over h2 {
+    color: var(--red);
+    margin-bottom: 8px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* SNAKE CONTROLS */
+
+.mobile-controls {
+    width: 190px;
+    margin: 18px auto 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+}
+
+.mobile-controls button {
+    height: 50px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: white;
+    border-radius: 10px;
+}
+
+.mobile-controls button:hover {
+    background: var(--purple);
+}
+
+.empty {
+    visibility: hidden;
 }
 
 /* LEADERBOARD */
 
-.leaderboard{
-  max-width:700px;
-  margin:40px auto;
-  background:#111522;
-  border:1px solid #252c40;
-  border-radius:15px;
-  overflow:hidden;
+.leaderboard {
+    max-width: 700px;
+    margin: 30px auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    overflow: hidden;
 }
 
-.row{
-  display:grid;
-  grid-template-columns:60px 1fr 120px;
-  padding:18px;
-  border-bottom:1px solid #252c40;
+.row {
+    display: grid;
+    grid-template-columns: 60px 1fr 130px;
+    padding: 18px;
+    border-bottom: 1px solid var(--border);
 }
 
-.row:last-child{border-bottom:0}
+.row:last-child {
+    border-bottom: 0;
+}
 
-.row .points{
-  text-align:right;
-  color:#20d9ff;
-  font-weight:bold;
+.points {
+    text-align: right;
+    color: var(--cyan);
+    font-weight: bold;
 }
 
 /* PROFILE */
 
-.profile{
-  max-width:650px;
-  margin:60px auto;
-  background:#111522;
-  border:1px solid #252c40;
-  border-radius:18px;
-  padding:30px;
+.profile {
+    max-width: 650px;
+    margin: 60px auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 30px;
 }
 
-.avatar{
-  width:70px;
-  height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#7c5cff,#20d9ff);
-  border-radius:18px;
-  font-size:28px;
-  font-weight:bold;
-  margin-bottom:15px;
+.avatar {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--purple), var(--cyan));
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 15px;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:25px;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 25px;
 }
 
-.stat{
-  background:#090c15;
-  border:1px solid #252c40;
-  padding:15px;
-  border-radius:10px;
+.stat {
+    background: #090c15;
+    border: 1px solid var(--border);
+    padding: 17px;
+    border-radius: 11px;
 }
 
-.stat small{
-  color:#8b93aa;
+.stat small {
+    color: var(--muted);
 }
 
-.stat strong{
-  display:block;
-  font-size:22px;
-  margin-top:5px;
+.stat strong {
+    display: block;
+    font-size: 23px;
+    margin-top: 6px;
 }
 
 /* MOBILE */
 
-@media(max-width:600px){
-  .nav button{margin-left:8px}
-  .stats{grid-template-columns:1fr}
-  .row{grid-template-columns:45px 1fr 90px}
+@media(max-width: 650px) {
+
+    .nav-links {
+        gap: 8px;
+    }
+
+    .nav-links button {
+        font-size: 12px;
+    }
+
+    .hero {
+        padding-top: 60px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .row {
+        grid-template-columns: 45px 1fr 90px;
+    }
 }
 </style>
 </head>
@@ -291,714 +373,1200 @@ nav{
 <body>
 
 <nav>
-  <div class="logo">NE<span>X</span>US</div>
 
-  <div class="nav">
-    <button onclick="page('home')">Home</button>
-    <button onclick="page('games')">Games</button>
-    <button onclick="page('leaderboard')">Leaderboard</button>
-    <button onclick="page('profile')">Profile</button>
-  </div>
+    <div class="logo">
+        NE<span>X</span>US
+    </div>
+
+    <div class="nav-links">
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('games')">Games</button>
+        <button onclick="showPage('leaderboard')">🏆</button>
+        <button onclick="showPage('profile')">Profile</button>
+    </div>
+
 </nav>
 
 
-<!-- HOME -->
+<!-- ================= HOME ================= -->
 
 <section id="home" class="page active">
 
-  <div class="hero">
+    <div class="hero">
 
-    <h1>
-      WELCOME TO<br>
-      <span class="gradient">NEXUS</span>
-    </h1>
+        <h1>
+            PLAY.<br>
+            <span class="gradient">COMPETE.</span><br>
+            REPEAT.
+        </h1>
 
-    <p>
-      Speel arcade games, probeer records te breken
-      en klim naar de top van het leaderboard.
-    </p>
+        <p>
+            Welkom bij NEXUS. Speel arcade games,
+            verbeter je records en probeer de top van
+            het leaderboard te bereiken.
+        </p>
 
-    <button class="btn" onclick="page('games')">
-      🎮 Play now
-    </button>
+        <button class="btn" onclick="showPage('games')">
+            🎮 Bekijk games
+        </button>
 
-  </div>
+    </div>
 
 </section>
 
 
-<!-- GAMES -->
+<!-- ================= GAMES ================= -->
 
 <section id="games" class="page">
 
-  <div class="container">
+    <div class="container">
 
-    <h1>🎮 Game Library</h1>
+        <h1>🎮 Game Library</h1>
 
-    <p style="color:#8b93aa;margin:8px 0 25px">
-      Kies een game.
-    </p>
+        <p style="color:var(--muted);margin-top:8px">
+            Kies een game en begin met spelen.
+        </p>
 
-    <div class="games">
+        <div class="games">
 
-      <div class="card">
+            <!-- NEON RUSH -->
 
-        <div class="game-art">⚡</div>
+            <div class="card">
 
-        <div class="card-content">
+                <div class="game-art">
+                    ⚡
+                </div>
 
-          <h2>Neon Rush</h2>
+                <div class="card-content">
 
-          <p>
-            Ontwijk de rode obstakels
-            en probeer zo lang mogelijk te overleven.
-          </p>
+                    <h2>Neon Rush</h2>
 
-          <button
-            class="play"
-            onclick="startGame()">
-            PLAY GAME
-          </button>
+                    <p>
+                        Ontwijk rode obstakels
+                        en probeer zo lang mogelijk
+                        te overleven.
+                    </p>
+
+                    <button
+                        class="play"
+                        onclick="startNeon()">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SNAKE -->
+
+            <div class="card">
+
+                <div class="game-art">
+                    🐍
+                </div>
+
+                <div class="card-content">
+
+                    <h2>Snake X</h2>
+
+                    <p>
+                        Eet de appels, groei steeds
+                        langer en probeer jezelf
+                        niet te raken.
+                    </p>
+
+                    <button
+                        class="play"
+                        onclick="startSnake()">
+                        PLAY
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SPACE -->
+
+            <div class="card">
+
+                <div class="game-art">
+                    🚀
+                </div>
+
+                <div class="card-content">
+
+                    <h2>Space Run</h2>
+
+                    <p>
+                        Binnenkort beschikbaar.
+                    </p>
+
+                    <button
+                        class="play"
+                        onclick="comingSoon()">
+                        COMING SOON
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- AIM -->
+
+            <div class="card">
+
+                <div class="game-art">
+                    🎯
+                </div>
+
+                <div class="card-content">
+
+                    <h2>Aim Lab</h2>
+
+                    <p>
+                        Binnenkort beschikbaar.
+                    </p>
+
+                    <button
+                        class="play"
+                        onclick="comingSoon()">
+                        COMING SOON
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
-
-      </div>
-
-      <div class="card">
-
-        <div class="game-art">🐍</div>
-
-        <div class="card-content">
-
-          <h2>Snake X</h2>
-
-          <p>Coming soon.</p>
-
-          <button class="play" onclick="soon()">
-            COMING SOON
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <div class="game-art">🚀</div>
-
-        <div class="card-content">
-
-          <h2>Space Run</h2>
-
-          <p>Coming soon.</p>
-
-          <button class="play" onclick="soon()">
-            COMING SOON
-          </button>
-
-        </div>
-
-      </div>
 
     </div>
-
-  </div>
 
 </section>
 
 
-<!-- NEON RUSH -->
+<!-- ================= NEON RUSH ================= -->
 
 <section id="neon" class="page">
 
-  <div class="game-wrap">
+    <div class="game-container">
 
-    <div class="game-header">
+        <div class="game-top">
 
-      <button class="btn" onclick="page('games')">
-        ← Games
-      </button>
+            <button
+                class="btn"
+                onclick="stopGame();showPage('games')">
+                ← Games
+            </button>
 
-      <div class="score">
-        SCORE: <span id="score">0</span>
-      </div>
+            <div class="game-score">
+                SCORE:
+                <span id="neonScore">0</span>
+            </div>
+
+        </div>
+
+        <canvas
+            id="neonCanvas"
+            width="600"
+            height="650">
+        </canvas>
+
+        <div class="game-help">
+            Gebruik ← → of A / D.
+        </div>
+
+        <div
+            id="neonOver"
+            class="game-over hidden">
+
+            <h2>GAME OVER</h2>
+
+            <p>
+                Score:
+                <strong id="neonFinal">0</strong>
+            </p>
+
+            <br>
+
+            <button class="btn" onclick="startNeon()">
+                Opnieuw
+            </button>
+
+        </div>
 
     </div>
-
-    <canvas
-      id="gameCanvas"
-      width="600"
-      height="650">
-    </canvas>
-
-    <div class="controls">
-      Gebruik ← → of A / D om te bewegen.
-    </div>
-
-    <div
-      id="gameOver"
-      class="game-over hidden">
-
-      <h2>GAME OVER</h2>
-
-      <p>
-        Score:
-        <strong id="finalScore">0</strong>
-      </p>
-
-      <br>
-
-      <button
-        class="btn"
-        onclick="startGame()">
-        Opnieuw spelen
-      </button>
-
-    </div>
-
-  </div>
 
 </section>
 
 
-<!-- LEADERBOARD -->
+<!-- ================= SNAKE ================= -->
+
+<section id="snake" class="page">
+
+    <div class="game-container">
+
+        <div class="game-top">
+
+            <button
+                class="btn"
+                onclick="stopGame();showPage('games')">
+                ← Games
+            </button>
+
+            <div class="game-score">
+                SCORE:
+                <span id="snakeScore">0</span>
+            </div>
+
+        </div>
+
+        <canvas
+            id="snakeCanvas"
+            width="600"
+            height="600">
+        </canvas>
+
+        <div class="game-help">
+            Gebruik WASD of de pijltjestoetsen.
+        </div>
+
+        <div class="mobile-controls">
+
+            <button class="empty"></button>
+
+            <button onclick="changeSnakeDirection('up')">
+                ▲
+            </button>
+
+            <button class="empty"></button>
+
+            <button onclick="changeSnakeDirection('left')">
+                ◀
+            </button>
+
+            <button onclick="changeSnakeDirection('down')">
+                ▼
+            </button>
+
+            <button onclick="changeSnakeDirection('right')">
+                ▶
+            </button>
+
+        </div>
+
+        <div
+            id="snakeOver"
+            class="game-over hidden">
+
+            <h2>GAME OVER</h2>
+
+            <p>
+                Score:
+                <strong id="snakeFinal">0</strong>
+            </p>
+
+            <br>
+
+            <button class="btn" onclick="startSnake()">
+                Opnieuw
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LEADERBOARD ================= -->
 
 <section id="leaderboard" class="page">
 
-  <div class="container">
+    <div class="container">
 
-    <h1>🏆 Leaderboard</h1>
+        <h1>🏆 Leaderboard</h1>
 
-    <p style="color:#8b93aa;margin-top:8px">
-      Hoogste Neon Rush scores.
-    </p>
+        <p style="color:var(--muted);margin-top:8px">
+            Jouw beste lokale scores.
+        </p>
 
-    <div class="leaderboard" id="leaderboard"></div>
+        <div
+            class="leaderboard"
+            id="leaderboardList">
+        </div>
 
-  </div>
+    </div>
 
 </section>
 
 
-<!-- PROFILE -->
+<!-- ================= PROFILE ================= -->
 
 <section id="profile" class="page">
 
-  <div class="container">
+    <div class="container">
 
-    <div class="profile">
+        <div class="profile">
 
-      <div class="avatar" id="avatar">P</div>
+            <div class="avatar">
+                P
+            </div>
 
-      <h1>Player</h1>
+            <h1>Player</h1>
 
-      <p style="color:#8b93aa;margin-top:5px">
-        NEXUS Player
-      </p>
+            <p style="color:var(--muted);margin-top:5px">
+                Local NEXUS Player
+            </p>
 
-      <div class="stats">
+            <div class="stats">
 
-        <div class="stat">
-          <small>High Score</small>
-          <strong id="highScore">0</strong>
+                <div class="stat">
+                    <small>Neon Rush</small>
+                    <strong id="neonHigh">0</strong>
+                </div>
+
+                <div class="stat">
+                    <small>Snake X</small>
+                    <strong id="snakeHigh">0</strong>
+                </div>
+
+                <div class="stat">
+                    <small>Games Played</small>
+                    <strong id="gamesPlayed">0</strong>
+                </div>
+
+            </div>
+
         </div>
-
-        <div class="stat">
-          <small>Games</small>
-          <strong id="gamesPlayed">0</strong>
-        </div>
-
-        <div class="stat">
-          <small>Status</small>
-          <strong style="color:#35e68a">ONLINE</strong>
-        </div>
-
-      </div>
 
     </div>
-
-  </div>
 
 </section>
 
 
 <script>
 
-/* =========================
-   PLATFORM
-========================= */
+/* =====================================================
+   SAVE SYSTEM
+   ===================================================== */
 
-let highScore =
-  Number(localStorage.getItem("nexusHighScore")) || 0;
+let neonHigh =
+    Number(localStorage.getItem("nexusNeonHigh")) || 0;
+
+let snakeHigh =
+    Number(localStorage.getItem("nexusSnakeHigh")) || 0;
 
 let gamesPlayed =
-  Number(localStorage.getItem("nexusGamesPlayed")) || 0;
+    Number(localStorage.getItem("nexusGamesPlayed")) || 0;
 
-function page(name){
 
-  document
-    .querySelectorAll(".page")
-    .forEach(x => x.classList.remove("active"));
+/* =====================================================
+   PAGE SYSTEM
+   ===================================================== */
 
-  document
-    .getElementById(name)
-    .classList.add("active");
+function showPage(id) {
 
-  if(name === "leaderboard"){
-    renderLeaderboard();
-  }
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
 
-  if(name === "profile"){
-    updateProfile();
-  }
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+    if(id === "leaderboard") {
+        renderLeaderboard();
+    }
+
+    if(id === "profile") {
+        updateProfile();
+    }
 }
 
 
-/* =========================
-   GAME
-========================= */
+/* =====================================================
+   NEON RUSH
+   ===================================================== */
 
-const canvas =
-  document.getElementById("gameCanvas");
+const neonCanvas =
+    document.getElementById("neonCanvas");
 
-const ctx =
-  canvas.getContext("2d");
+const neonCtx =
+    neonCanvas.getContext("2d");
 
-let player;
-let obstacles;
-let score;
-let running;
-let animation;
-let spawnTimer;
+let neonPlayer;
+let neonObstacles = [];
+let neonScore = 0;
+let neonRunning = false;
+let neonAnimation;
+let neonSpawn = 0;
 
 
-function startGame(){
+function startNeon() {
 
-  page("neon");
+    stopGame();
 
-  player = {
-    x: 275,
-    y: 560,
-    width:50,
-    height:50,
-    speed:7
-  };
+    showPage("neon");
 
-  obstacles = [];
+    neonPlayer = {
+        x: 275,
+        y: 560,
+        width: 50,
+        height: 50,
+        speed: 7
+    };
 
-  score = 0;
+    neonObstacles = [];
 
-  spawnTimer = 0;
+    neonScore = 0;
 
-  running = true;
+    neonSpawn = 0;
 
-  document
-    .getElementById("score")
-    .textContent = "0";
+    neonRunning = true;
 
-  document
-    .getElementById("gameOver")
-    .classList.add("hidden");
+    document.getElementById("neonScore").textContent = 0;
 
-  gamesPlayed++;
+    document
+        .getElementById("neonOver")
+        .classList.add("hidden");
 
-  localStorage.setItem(
-    "nexusGamesPlayed",
-    gamesPlayed
-  );
+    gamesPlayed++;
 
-  cancelAnimationFrame(animation);
+    saveGames();
 
-  loop();
+    neonLoop();
 }
 
+
+function updateNeon() {
+
+    if(
+        keys["arrowleft"] ||
+        keys["a"]
+    ) {
+        neonPlayer.x -= neonPlayer.speed;
+    }
+
+    if(
+        keys["arrowright"] ||
+        keys["d"]
+    ) {
+        neonPlayer.x += neonPlayer.speed;
+    }
+
+    neonPlayer.x =
+        Math.max(
+            0,
+            Math.min(
+                neonCanvas.width - neonPlayer.width,
+                neonPlayer.x
+            )
+        );
+
+
+    neonSpawn++;
+
+    if(neonSpawn > Math.max(14,45-Math.floor(neonScore/100))) {
+
+        const size =
+            30 + Math.random() * 30;
+
+        neonObstacles.push({
+            x: Math.random() *
+                (neonCanvas.width-size),
+            y: -size,
+            width:size,
+            height:size,
+            speed:3.5 + Math.random()*3
+        });
+
+        neonSpawn = 0;
+    }
+
+
+    for(
+        let i=neonObstacles.length-1;
+        i>=0;
+        i--
+    ) {
+
+        const o = neonObstacles[i];
+
+        o.y += o.speed;
+
+        if(hit(neonPlayer,o)) {
+
+            endNeon();
+
+            return;
+        }
+
+        if(o.y > neonCanvas.height) {
+
+            neonObstacles.splice(i,1);
+
+            neonScore += 10;
+
+            document
+                .getElementById("neonScore")
+                .textContent = neonScore;
+        }
+    }
+}
+
+
+function drawNeon() {
+
+    const g =
+        neonCtx.createLinearGradient(
+            0,0,
+            0,neonCanvas.height
+        );
+
+    g.addColorStop(0,"#111633");
+    g.addColorStop(1,"#050711");
+
+    neonCtx.fillStyle = g;
+
+    neonCtx.fillRect(
+        0,0,
+        neonCanvas.width,
+        neonCanvas.height
+    );
+
+
+    neonCtx.strokeStyle = "#ffffff08";
+
+    for(let x=0;x<600;x+=40) {
+
+        neonCtx.beginPath();
+        neonCtx.moveTo(x,0);
+        neonCtx.lineTo(x,650);
+        neonCtx.stroke();
+    }
+
+    for(let y=0;y<650;y+=40) {
+
+        neonCtx.beginPath();
+        neonCtx.moveTo(0,y);
+        neonCtx.lineTo(600,y);
+        neonCtx.stroke();
+    }
+
+
+    neonCtx.shadowColor = "#20d9ff";
+    neonCtx.shadowBlur = 20;
+
+    neonCtx.fillStyle = "#20d9ff";
+
+    neonCtx.fillRect(
+        neonPlayer.x,
+        neonPlayer.y,
+        neonPlayer.width,
+        neonPlayer.height
+    );
+
+
+    neonCtx.shadowColor = "#ff5577";
+    neonCtx.shadowBlur = 18;
+
+    neonCtx.fillStyle = "#ff5577";
+
+    neonObstacles.forEach(o => {
+
+        neonCtx.fillRect(
+            o.x,
+            o.y,
+            o.width,
+            o.height
+        );
+
+    });
+
+    neonCtx.shadowBlur = 0;
+}
+
+
+function neonLoop() {
+
+    if(!neonRunning) return;
+
+    updateNeon();
+
+    drawNeon();
+
+    neonAnimation =
+        requestAnimationFrame(neonLoop);
+}
+
+
+function endNeon() {
+
+    neonRunning = false;
+
+    cancelAnimationFrame(neonAnimation);
+
+    if(neonScore > neonHigh) {
+
+        neonHigh = neonScore;
+
+        localStorage.setItem(
+            "nexusNeonHigh",
+            neonHigh
+        );
+    }
+
+    document.getElementById("neonFinal")
+        .textContent = neonScore;
+
+    document
+        .getElementById("neonOver")
+        .classList.remove("hidden");
+}
+
+
+/* =====================================================
+   SNAKE X
+   ===================================================== */
+
+const snakeCanvas =
+    document.getElementById("snakeCanvas");
+
+const snakeCtx =
+    snakeCanvas.getContext("2d");
+
+const grid = 30;
+
+let snake;
+let food;
+let snakeDirection;
+let nextDirection;
+let snakeScore = 0;
+let snakeRunning = false;
+let snakeTimer;
+
+
+function startSnake() {
+
+    stopGame();
+
+    showPage("snake");
+
+    snake = [
+        {x:10,y:10},
+        {x:9,y:10},
+        {x:8,y:10}
+    ];
+
+    snakeDirection = {
+        x:1,
+        y:0
+    };
+
+    nextDirection = {
+        x:1,
+        y:0
+    };
+
+    snakeScore = 0;
+
+    document
+        .getElementById("snakeScore")
+        .textContent = 0;
+
+    document
+        .getElementById("snakeOver")
+        .classList.add("hidden");
+
+    createFood();
+
+    gamesPlayed++;
+
+    saveGames();
+
+    snakeRunning = true;
+
+    snakeTimer =
+        setInterval(
+            snakeLoop,
+            105
+        );
+}
+
+
+function snakeLoop() {
+
+    snakeDirection = nextDirection;
+
+    const head = {
+        x: snake[0].x + snakeDirection.x,
+        y: snake[0].y + snakeDirection.y
+    };
+
+
+    /* muur */
+
+    if(
+        head.x < 0 ||
+        head.x >= grid ||
+        head.y < 0 ||
+        head.y >= grid
+    ) {
+
+        endSnake();
+
+        return;
+    }
+
+
+    /* eigen lichaam */
+
+    if(
+        snake.some(
+            part =>
+                part.x === head.x &&
+                part.y === head.y
+        )
+    ) {
+
+        endSnake();
+
+        return;
+    }
+
+
+    snake.unshift(head);
+
+
+    /* eten */
+
+    if(
+        head.x === food.x &&
+        head.y === food.y
+    ) {
+
+        snakeScore += 10;
+
+        document
+            .getElementById("snakeScore")
+            .textContent = snakeScore;
+
+        createFood();
+
+    } else {
+
+        snake.pop();
+
+    }
+
+
+    drawSnake();
+}
+
+
+function createFood() {
+
+    let valid = false;
+
+    while(!valid) {
+
+        food = {
+            x: Math.floor(
+                Math.random() * grid
+            ),
+            y: Math.floor(
+                Math.random() * grid
+            )
+        };
+
+        valid =
+            !snake.some(
+                part =>
+                    part.x === food.x &&
+                    part.y === food.y
+            );
+    }
+}
+
+
+function drawSnake() {
+
+    snakeCtx.fillStyle = "#070912";
+
+    snakeCtx.fillRect(
+        0,
+        0,
+        600,
+        600
+    );
+
+
+    /* grid */
+
+    snakeCtx.strokeStyle = "#ffffff08";
+
+    for(let i=0;i<=600;i+=20) {
+
+        snakeCtx.beginPath();
+
+        snakeCtx.moveTo(i,0);
+        snakeCtx.lineTo(i,600);
+
+        snakeCtx.stroke();
+
+        snakeCtx.beginPath();
+
+        snakeCtx.moveTo(0,i);
+        snakeCtx.lineTo(600,i);
+
+        snakeCtx.stroke();
+    }
+
+
+    /* food */
+
+    snakeCtx.shadowColor = "#ff5577";
+    snakeCtx.shadowBlur = 20;
+
+    snakeCtx.fillStyle = "#ff5577";
+
+    snakeCtx.fillRect(
+        food.x * 20 + 3,
+        food.y * 20 + 3,
+        14,
+        14
+    );
+
+
+    /* snake */
+
+    snake.forEach(
+        (part,index) => {
+
+            snakeCtx.shadowColor =
+                "#35e68a";
+
+            snakeCtx.shadowBlur = 15;
+
+            snakeCtx.fillStyle =
+                index === 0
+                    ? "#7cffae"
+                    : "#35e68a";
+
+            snakeCtx.fillRect(
+                part.x * 20 + 2,
+                part.y * 20 + 2,
+                16,
+                16
+            );
+
+        }
+    );
+
+    snakeCtx.shadowBlur = 0;
+}
+
+
+function changeSnakeDirection(direction) {
+
+    if(direction === "up" && snakeDirection.y !== 1) {
+
+        nextDirection = {
+            x:0,
+            y:-1
+        };
+
+    }
+
+    if(direction === "down" && snakeDirection.y !== -1) {
+
+        nextDirection = {
+            x:0,
+            y:1
+        };
+
+    }
+
+    if(direction === "left" && snakeDirection.x !== 1) {
+
+        nextDirection = {
+            x:-1,
+            y:0
+        };
+
+    }
+
+    if(direction === "right" && snakeDirection.x !== -1) {
+
+        nextDirection = {
+            x:1,
+            y:0
+        };
+
+    }
+}
+
+
+function endSnake() {
+
+    snakeRunning = false;
+
+    clearInterval(snakeTimer);
+
+    if(snakeScore > snakeHigh) {
+
+        snakeHigh = snakeScore;
+
+        localStorage.setItem(
+            "nexusSnakeHigh",
+            snakeHigh
+        );
+    }
+
+    document
+        .getElementById("snakeFinal")
+        .textContent = snakeScore;
+
+    document
+        .getElementById("snakeOver")
+        .classList.remove("hidden");
+}
+
+
+/* =====================================================
+   KEYBOARD
+   ===================================================== */
 
 let keys = {};
 
+document.addEventListener(
+    "keydown",
+    e => {
 
-document.addEventListener("keydown", e => {
-
-  keys[e.key.toLowerCase()] = true;
-
-});
-
-
-document.addEventListener("keyup", e => {
-
-  keys[e.key.toLowerCase()] = false;
-
-});
+        keys[e.key.toLowerCase()] = true;
 
 
-function movePlayer(){
+        if(
+            snakeRunning &&
+            [
+                "arrowup",
+                "arrowdown",
+                "arrowleft",
+                "arrowright"
+            ].includes(e.key.toLowerCase())
+        ) {
 
-  if(keys["arrowleft"] || keys["a"]){
-    player.x -= player.speed;
-  }
+            e.preventDefault();
 
-  if(keys["arrowright"] || keys["d"]){
-    player.x += player.speed;
-  }
-
-  if(player.x < 0){
-    player.x = 0;
-  }
-
-  if(player.x + player.width > canvas.width){
-    player.x =
-      canvas.width - player.width;
-  }
-
-}
+            changeSnakeDirection(
+                e.key
+                    .toLowerCase()
+                    .replace("arrow","")
+            );
+        }
 
 
-function spawnObstacle(){
+        if(
+            snakeRunning &&
+            ["w","a","s","d"]
+                .includes(e.key.toLowerCase())
+        ) {
 
-  const size =
-    30 + Math.random() * 30;
-
-  obstacles.push({
-
-    x: Math.random() *
-      (canvas.width - size),
-
-    y: -size,
-
-    width:size,
-    height:size,
-
-    speed:
-      3.5 + Math.random() * 3
-
-  });
-
-}
-
-
-function collision(a,b){
-
-  return (
-    a.x < b.x + b.width &&
-    a.x + a.width > b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height > b.y
-  );
-
-}
-
-
-function update(){
-
-  movePlayer();
-
-  spawnTimer++;
-
-  /*
-    De game wordt langzaam moeilijker.
-  */
-
-  if(
-    spawnTimer >
-    Math.max(15, 45 - Math.floor(score / 100))
-  ){
-
-    spawnObstacle();
-
-    spawnTimer = 0;
-
-  }
-
-
-  for(
-    let i = obstacles.length - 1;
-    i >= 0;
-    i--
-  ){
-
-    const o = obstacles[i];
-
-    o.y += o.speed;
-
-    if(collision(player,o)){
-
-      endGame();
-
-      return;
+            changeSnakeDirection({
+                w:"up",
+                a:"left",
+                s:"down",
+                d:"right"
+            }[e.key.toLowerCase()]);
+        }
 
     }
+);
 
-    if(o.y > canvas.height){
 
-      obstacles.splice(i,1);
-
-      score += 10;
-
-      document
-        .getElementById("score")
-        .textContent = score;
-
+document.addEventListener(
+    "keyup",
+    e => {
+        keys[e.key.toLowerCase()] = false;
     }
-
-  }
-
-}
+);
 
 
-function draw(){
+/* =====================================================
+   COMMON
+   ===================================================== */
 
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
+function hit(a,b) {
 
-
-  /*
-    achtergrond
-  */
-
-  const gradient =
-    ctx.createLinearGradient(
-      0,0,
-      0,canvas.height
+    return (
+        a.x < b.x+b.width &&
+        a.x+a.width > b.x &&
+        a.y < b.y+b.height &&
+        a.y+a.height > b.y
     );
-
-  gradient.addColorStop(0,"#111633");
-  gradient.addColorStop(1,"#050711");
-
-  ctx.fillStyle = gradient;
-
-  ctx.fillRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-
-
-  /*
-    grid
-  */
-
-  ctx.strokeStyle =
-    "#ffffff08";
-
-  for(let x=0;x<canvas.width;x+=40){
-
-    ctx.beginPath();
-
-    ctx.moveTo(x,0);
-    ctx.lineTo(x,canvas.height);
-
-    ctx.stroke();
-
-  }
-
-  for(let y=0;y<canvas.height;y+=40){
-
-    ctx.beginPath();
-
-    ctx.moveTo(0,y);
-    ctx.lineTo(canvas.width,y);
-
-    ctx.stroke();
-
-  }
-
-
-  /*
-    player
-  */
-
-  ctx.shadowColor =
-    "#20d9ff";
-
-  ctx.shadowBlur = 20;
-
-  ctx.fillStyle =
-    "#20d9ff";
-
-  ctx.fillRect(
-    player.x,
-    player.y,
-    player.width,
-    player.height
-  );
-
-
-  /*
-    obstacles
-  */
-
-  ctx.shadowColor =
-    "#ff416c";
-
-  ctx.shadowBlur = 18;
-
-  ctx.fillStyle =
-    "#ff416c";
-
-  obstacles.forEach(o => {
-
-    ctx.fillRect(
-      o.x,
-      o.y,
-      o.width,
-      o.height
-    );
-
-  });
-
-
-  ctx.shadowBlur = 0;
-
 }
 
 
-function loop(){
+function stopGame() {
 
-  if(!running){
-    return;
-  }
+    neonRunning = false;
 
-  update();
+    cancelAnimationFrame(neonAnimation);
 
-  draw();
+    snakeRunning = false;
 
-  animation =
-    requestAnimationFrame(loop);
-
+    clearInterval(snakeTimer);
 }
 
 
-function endGame(){
-
-  running = false;
-
-  cancelAnimationFrame(animation);
-
-  if(score > highScore){
-
-    highScore = score;
+function saveGames() {
 
     localStorage.setItem(
-      "nexusHighScore",
-      highScore
+        "nexusGamesPlayed",
+        gamesPlayed
+    );
+}
+
+
+function updateProfile() {
+
+    document
+        .getElementById("neonHigh")
+        .textContent = neonHigh;
+
+    document
+        .getElementById("snakeHigh")
+        .textContent = snakeHigh;
+
+    document
+        .getElementById("gamesPlayed")
+        .textContent = gamesPlayed;
+}
+
+
+/* =====================================================
+   LEADERBOARD
+   ===================================================== */
+
+function renderLeaderboard() {
+
+    const board =
+        document.getElementById(
+            "leaderboardList"
+        );
+
+    const players = [
+
+        {
+            name:"ShadowX",
+            game:"Neon Rush",
+            score:1240
+        },
+
+        {
+            name:"CyberWolf",
+            game:"Snake X",
+            score:980
+        },
+
+        {
+            name:"Nova",
+            game:"Neon Rush",
+            score:760
+        },
+
+        {
+            name:"PixelKing",
+            game:"Snake X",
+            score:620
+        }
+
+    ];
+
+
+    if(neonHigh > 0) {
+
+        players.push({
+            name:"You",
+            game:"Neon Rush",
+            score:neonHigh
+        });
+
+    }
+
+
+    if(snakeHigh > 0) {
+
+        players.push({
+            name:"You",
+            game:"Snake X",
+            score:snakeHigh
+        });
+
+    }
+
+
+    players.sort(
+        (a,b) => b.score - a.score
     );
 
-  }
 
-  document
-    .getElementById("finalScore")
-    .textContent = score;
+    board.innerHTML = "";
 
-  document
-    .getElementById("gameOver")
-    .classList.remove("hidden");
 
+    players.forEach(
+        (player,index) => {
+
+            const row =
+                document.createElement("div");
+
+            row.className = "row";
+
+            const medal =
+                index === 0 ? "🥇" :
+                index === 1 ? "🥈" :
+                index === 2 ? "🥉" :
+                "#" + (index+1);
+
+            row.innerHTML = `
+
+                <div>${medal}</div>
+
+                <div>
+                    <strong>${player.name}</strong>
+                    <small style="display:block;color:#8b93aa;margin-top:4px">
+                        ${player.game}
+                    </small>
+                </div>
+
+                <div class="points">
+                    ${player.score}
+                </div>
+
+            `;
+
+            board.appendChild(row);
+        }
+    );
 }
 
 
-/* =========================
-   PROFILE
-========================= */
+function comingSoon() {
 
-function updateProfile(){
-
-  document
-    .getElementById("highScore")
-    .textContent = highScore;
-
-  document
-    .getElementById("gamesPlayed")
-    .textContent = gamesPlayed;
-
+    alert(
+        "🚧 Deze game is nog in ontwikkeling!"
+    );
 }
 
 
-/* =========================
-   LEADERBOARD
-========================= */
-
-function renderLeaderboard(){
-
-  const fakePlayers = [
-
-    {name:"ShadowX",score:1240},
-    {name:"CyberWolf",score:980},
-    {name:"Nova",score:760},
-    {name:"PixelKing",score:520}
-
-  ];
-
-
-  if(highScore > 0){
-
-    fakePlayers.push({
-      name:"You",
-      score:highScore
-    });
-
-  }
-
-
-  fakePlayers.sort(
-    (a,b) => b.score - a.score
-  );
-
-
-  const board =
-    document.getElementById("leaderboard");
-
-  board.innerHTML = "";
-
-
-  fakePlayers.forEach((player,index) => {
-
-    const row =
-      document.createElement("div");
-
-    row.className = "row";
-
-    const medal =
-      index === 0 ? "🥇" :
-      index === 1 ? "🥈" :
-      index === 2 ? "🥉" :
-      "#" + (index+1);
-
-    row.innerHTML = `
-
-      <div>${medal}</div>
-
-      <div>
-        <strong>${player.name}</strong>
-      </div>
-
-      <div class="points">
-        ${player.score}
-      </div>
-
-    `;
-
-    board.appendChild(row);
-
-  });
-
-}
-
-
-/* =========================
-   OTHER
-========================= */
-
-function soon(){
-
-  alert(
-    "Deze game is nog in ontwikkeling 🚧"
-  );
-
-}
+/* =====================================================
+   START
+   ===================================================== */
 
 updateProfile();
 
